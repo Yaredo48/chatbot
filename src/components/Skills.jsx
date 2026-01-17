@@ -10,6 +10,7 @@ const Skills = () => {
   });
 
   const [animatedSkills, setAnimatedSkills] = useState(false);
+  const [activeSkill, setActiveSkill] = useState(portfolioData.skills[0] ?? null);
 
   useEffect(() => {
     if (inView && !animatedSkills) {
@@ -76,9 +77,41 @@ const Skills = () => {
             Technical <span className="gradient-text">Skills</span>
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-gray-600 max-w-3xl mx-auto">
-            A comprehensive overview of my technical expertise across various domains in software engineering and artificial intelligence.
+            Hover over a skill for current proficiency.
           </motion.p>
         </motion.div>
+
+        {activeSkill && (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="mb-10"
+          >
+            <motion.div
+              variants={itemVariants}
+              className="mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+            >
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">Current proficiency</div>
+                  <div className="mt-1 text-lg font-semibold text-gray-900">{activeSkill.name}</div>
+                  <div className="mt-1 text-sm text-gray-600">{activeSkill.category}</div>
+                </div>
+                <div className="text-4xl font-bold text-primary-600">{activeSkill.level}%</div>
+              </div>
+
+              <div className="mt-4 skill-bar">
+                <motion.div
+                  className="skill-progress"
+                  initial={{ width: 0 }}
+                  animate={{ width: inView ? `${activeSkill.level}%` : 0 }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
 
         <motion.div
           variants={containerVariants}
@@ -95,7 +128,15 @@ const Skills = () => {
               </h3>
               <div className="space-y-4">
                 {skills.map((skill, skillIndex) => (
-                  <div key={skill.name} className="space-y-2">
+                  <div
+                    key={skill.name}
+                    className="space-y-2"
+                    onMouseEnter={() => setActiveSkill(skill)}
+                    onFocus={() => setActiveSkill(skill)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`Skill ${skill.name}, proficiency ${skill.level}%`}
+                  >
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium text-gray-700">{skill.name}</span>
                       <span className="text-sm text-gray-500">{skill.level}%</span>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar';
-import Introduction from './components/Introduction';
+import Hero3D from './components/Hero3D';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
@@ -15,7 +15,7 @@ function App() {
     <div className="min-h-screen">
       <Navbar />
       <main>
-        <Introduction />
+        <Hero3D />
         <Skills />
         <Projects />
         <Experience />
